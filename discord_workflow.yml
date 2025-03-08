@@ -1,0 +1,14 @@
+name: Discord Notifications
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        run: |
+          curl -X POST \
+               -H "Content-Type: application/json" \
+               -d '{"content":"A new pull request was created in repository: https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"}' \
+               "${{ secrets.DISCORD_WEBHOOK_URL }}"
